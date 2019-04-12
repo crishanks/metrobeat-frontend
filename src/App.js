@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import SpotifyPlaybackSDK from './Components/SpotifyPlaybackSDK'
+
 import Button from './Components/Button'
 
-const API = 'https://api.spotify.com/v1/me/playlists'
+const usersAPI = 'http://localhost:3000/api/v1/users'
+const playlistAPI = 'https://api.spotify.com/v1/me/playlists'
+const devicesAPI = 'https://api.spotify.com/v1/me/player/devices'
 
 class App extends Component {
 
@@ -11,7 +15,8 @@ class App extends Component {
     super()
     this.state = {
       users: [],
-      playlists: []
+      playlists: [],
+      devices: []
     }
   }
 
@@ -20,17 +25,16 @@ class App extends Component {
     }
 
     fetchUser = () => {
-      fetch('http://localhost:3000/api/v1/users')
+      fetch(usersAPI)
       .then(res => res.json())
       .then(data => {
         this.setState({users: data})
-        console.log(this.state.users[0].access_token)
         this.fetchPlaylists()
       })
     }
 
-    fetchPlaylists = () => {
-      fetch(API, {
+    fetchPlaylists = (shouldRetry=true) => {
+      fetch(playlistAPI, {
         headers: {
           'Authorization': 'Bearer ' + this.state.users[0].access_token
         }}
@@ -38,7 +42,33 @@ class App extends Component {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        this.setState({playlists: data})
+        if (data.error && shouldRetry) {
+          this.refreshToken()
+        } else {
+          this.setState({playlists: data})
+        }
+      })
+      this.fetchDevices()
+    }
+
+    refreshToken = () => {
+      fetch(usersAPI)
+      .then(results => results.json())
+      .then(json => {
+        this.setState({users: json})
+      })
+      this.fetchPlaylists(false)
+    }
+
+    fetchDevices = () => {
+      fetch(devicesAPI, {
+        headers: {
+          'Authorization': 'Bearer ' + this.state.users[0].access_token
+        }}
+      )
+      .then(res => res.json())
+      .then(data => {
+        this.setState({devices: data})
       })
     }
     
@@ -49,7 +79,7 @@ class App extends Component {
 
         <Button />
 
-        <h3>User Information</h3>
+        <SpotifyPlaybackSDK />
   
       </div>
     );

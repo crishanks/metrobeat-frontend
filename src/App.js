@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import SpotifyPlaybackSDK from './Components/SpotifyPlaybackSDK'
-
 import Button from './Components/Button'
+import SearchBar from './Components/SearchBar'
 
 const usersAPI = 'http://localhost:3000/api/v1/users'
 const playlistAPI = 'https://api.spotify.com/v1/me/playlists'
@@ -15,7 +14,7 @@ class App extends Component {
     super()
     this.state = {
       users: [],
-      playlists: [],
+      playlists: [], 
       devices: []
     }
   }
@@ -61,6 +60,7 @@ class App extends Component {
     }
 
     fetchDevices = () => {
+      console.log('fetching devices')
       fetch(devicesAPI, {
         headers: {
           'Authorization': 'Bearer ' + this.state.users[0].access_token
@@ -76,11 +76,8 @@ class App extends Component {
     return (
       <div className="App">
         <h1>MetroBeat</h1>
-
-        <Button />
-
-        <SpotifyPlaybackSDK />
-  
+        <Button />  
+        <SearchBar user={this.state.users[0]}/>
       </div>
     );
   }

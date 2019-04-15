@@ -12,6 +12,7 @@ class SearchBar extends Component {
   handleChange = (ev) => {
     ev.preventDefault()
     this.setState({[ev.target.name]: ev.target.value})
+    console.log(ev.target.value)
   }
 
   render() {

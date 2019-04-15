@@ -17,7 +17,8 @@ class Game extends Component {
       users: [],
       playlists: [], 
       devices: [], 
-      songs: []
+      songs: [],
+      currentSong: "spotify:track:3a1lNhkSLSkpJE4MSHpDu9"
     }
   }
 
@@ -77,8 +78,7 @@ class Game extends Component {
 
     fetchSongs = (ev) => {
       ev.preventDefault()
-      
-      const queryString = this.state.searchInput
+      const queryString = ev.target.searchInput.value
       fetch(`${searchAPI + queryString}&type=track`, {
         headers: {
           "Accept": 'application/json',
@@ -88,65 +88,25 @@ class Game extends Component {
       })
       .then(results => {return results.json()})
       .then(json => {
-        this.setState({songs: json})
+        console.log('json',json)
+        this.setState({
+          songs: json,
+          currentSong: json.tracks.items[0].uri
+        })
       })
     }
 
-  // componentDidMount = () => {
-  //   this.handleScriptLoad()
-  // }
-
-  // handleScriptLoad = () => {
-    
-  //   return new Promise(resolve => {
-  //     if (window.Spotify) {
-  //       resolve();
-  //     } else {
-  //       window.onSpotifyWebPlaybackSDKReady = resolve;
-  //     }
-  //   });
-  // }
+    handleChange = (ev) => {
+      ev.preventDefault()
+      this.setState({[ev.target.name]: ev.target.value})
+    }
 
   render() {
     return (
       <div> 
-        <script src="https://sdk.scdn.co/spotify-player.js"></script>
-        <script>{
-          window.onSpotifyWebPlaybackSDKReady = () => {
-            const token = 'BQCMTKmxgV2iRM6IZZ1p6jOdBUHYWhdYuhs-X35nl0Mhj1bx5Ch4WASq-lv1mQf0p__6deTdSQfxEjgIhouBP2hfYYjDIX7PfJ_3d6HsbQDPqFW2MuR9d7fIWcMpvuByMTLei4kkK7_Oy7F8ocXVu3hPYJ7javxy5-Q_';
-            const player = new window.Spotify.Player({
-              name: 'Web Playback SDK Quick Start Player',
-              getOAuthToken: cb => { cb(token); }
-            });
-
-            // Error handling
-            player.addListener('initialization_error', ({ message }) => { console.error(message); });
-            player.addListener('authentication_error', ({ message }) => { console.error(message); });
-            player.addListener('account_error', ({ message }) => { console.error(message); });
-            player.addListener('playback_error', ({ message }) => { console.error(message); });
-
-            // Playback status updates
-            player.addListener('player_state_changed', state => { console.log(state); });
-
-            // Ready
-            player.addListener('ready', ({ device_id }) => {
-              console.log('Ready with Device ID', device_id);
-            });
-
-            // Not Ready
-            player.addListener('not_ready', ({ device_id }) => {
-              console.log('Device ID has gone offline', device_id);
-            });
-
-            // Connect to the player!
-            player.connect();
-          }
-        }</script>
-
         <Button />  
-        <SearchBar user={this.state.users[1]} fetchSongs={this.fetchSongs}/>
-        <Player user={this.state.users[1]} songs={this.state.songs}/>
-
+        <SearchBar user={this.state.users[1]} fetchSongs={this.fetchSongs} handleChange={this.handleChange}/>
+        <Player user={this.state.users[1]} song={this.state.currentSong}/>
     </div>
     )
   }

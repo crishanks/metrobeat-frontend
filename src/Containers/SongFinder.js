@@ -22,7 +22,7 @@ class SongFinder extends Component {
       headers: {
         "Accept": 'application/json',
         "Content-Type": 'application/json',
-        "Authorization": 'Bearer ' + this.state.users[1].access_token
+        "Authorization": 'Bearer ' + this.props.users[1].access_token
       }
     })
     .then(results => {return results.json()})

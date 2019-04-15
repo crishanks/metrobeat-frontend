@@ -26,21 +26,20 @@ class Welcome extends Component {
   }
 
   componentDidMount = () => {
-    // this.handleScriptLoad()
     this.fetchUser()
   }
 
     fetchUser = () => {
-      fetch(usersAPI)
+      return fetch(usersAPI)
       .then(res => res.json())
       .then(data => {
         this.setState({users: data})
-        this.fetchPlaylists()
       })
+      .then(data => {this.fetchPlaylists()})
     }
 
     fetchPlaylists = (shouldRetry=true) => {
-      fetch(playlistAPI, {
+      return fetch(playlistAPI, {
         headers: {
           'Authorization': 'Bearer ' + this.state.users[1].access_token
         }}
@@ -54,7 +53,7 @@ class Welcome extends Component {
           this.setState({playlists: data})
         }
       })
-      this.fetchDevices()
+      .then(data => {this.fetchDevices()})
     }
 
     refreshToken = () => {

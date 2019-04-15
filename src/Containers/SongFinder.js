@@ -18,11 +18,12 @@ class SongFinder extends Component {
   fetchSongs = (ev) => {
     ev.preventDefault()
     const queryString = ev.target.searchInput.value
+    console.log('user', this.props.state.users[1].access_token)
     return fetch(`${searchAPI + queryString}&type=track`, {
       headers: {
         "Accept": 'application/json',
         "Content-Type": 'application/json',
-        "Authorization": 'Bearer ' + this.props.users[1].access_token
+        "Authorization": 'Bearer ' + this.props.state.users[1].access_token
       }
     })
     .then(results => {return results.json()})
@@ -32,13 +33,14 @@ class SongFinder extends Component {
         currentSong: json.tracks.items[0]
       })
     })
+    .then(data => {this.fetchAudioAnalysis()})
   }
 
   fetchAudioAnalysis = () => {
     console.log('current song id', this.state.currentSong.id)
     fetch(audioAnalysisAPI + this.state.currentSong.id, {
       headers: {
-        'Authorization': 'Bearer ' + this.state.users[1].access_token
+        'Authorization': 'Bearer ' + this.props.state.users[1].access_token
       }
     })
     .then(results => results.json())
@@ -51,7 +53,7 @@ class SongFinder extends Component {
   render() {
     return(
       <div>
-        <SearchBar />
+        <SearchBar fetchSongs={this.fetchSongs}/>
       </div>
     )
   }

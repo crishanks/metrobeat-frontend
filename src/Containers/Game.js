@@ -3,11 +3,13 @@ import React, {Component} from 'react'
 import Button from '../Components/Button'
 import SearchBar from '../Components/SearchBar'
 import Player from '../Components/Player'
+import BPM from '../Components/BPM'
 
 const usersAPI = 'http://localhost:3000/api/v1/users'
 const playlistAPI = 'https://api.spotify.com/v1/me/playlists'
 const devicesAPI = 'https://api.spotify.com/v1/me/player/devices'
 const searchAPI = 'https://api.spotify.com/v1/search?q='
+const audioAnalysisAPI = "https://api.spotify.com/v1/audio-analysis/"
 
 class Game extends Component {
 
@@ -18,7 +20,8 @@ class Game extends Component {
       playlists: [], 
       devices: [], 
       songs: [],
-      currentSong: "spotify:track:3a1lNhkSLSkpJE4MSHpDu9"
+      currentSong: [],
+      currentSongAnalysis: []
     }
   }
 
@@ -52,6 +55,7 @@ class Game extends Component {
         }
       })
       this.fetchDevices()
+      this.fetchAudioAnalysis()
     }
 
     refreshToken = () => {
@@ -64,7 +68,6 @@ class Game extends Component {
     }
 
     fetchDevices = () => {
-      console.log('fetching devices')
       fetch(devicesAPI, {
         headers: {
           'Authorization': 'Bearer ' + this.state.users[1].access_token
@@ -88,17 +91,20 @@ class Game extends Component {
       })
       .then(results => {return results.json()})
       .then(json => {
-        console.log('json',json)
         this.setState({
           songs: json,
-          currentSong: json.tracks.items[0].uri
+          currentSong: json.tracks.items[0]
         })
       })
     }
 
-    handleChange = (ev) => {
-      ev.preventDefault()
-      this.setState({[ev.target.name]: ev.target.value})
+    fetchAudioAnalysis = () => {
+      fetch(audioAnalysisAPI + this.state.currentSong)
+      .then(results => results.json())
+      .then(json => {
+        console.log('analysis', json)
+        this.setState({currentSongAnalysis: json})
+      })
     }
 
   render() {
@@ -107,6 +113,7 @@ class Game extends Component {
         <Button />  
         <SearchBar user={this.state.users[1]} fetchSongs={this.fetchSongs} handleChange={this.handleChange}/>
         <Player user={this.state.users[1]} song={this.state.currentSong}/>
+        <BPM />
     </div>
     )
   }

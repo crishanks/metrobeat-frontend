@@ -55,7 +55,6 @@ class Game extends Component {
         }
       })
       this.fetchDevices()
-      this.fetchAudioAnalysis()
     }
 
     refreshToken = () => {
@@ -82,7 +81,7 @@ class Game extends Component {
     fetchSongs = (ev) => {
       ev.preventDefault()
       const queryString = ev.target.searchInput.value
-      fetch(`${searchAPI + queryString}&type=track`, {
+      return fetch(`${searchAPI + queryString}&type=track`, {
         headers: {
           "Accept": 'application/json',
           "Content-Type": 'application/json',
@@ -99,7 +98,12 @@ class Game extends Component {
     }
 
     fetchAudioAnalysis = () => {
-      fetch(audioAnalysisAPI + this.state.currentSong)
+      console.log('current song id', this.state.currentSong.id)
+      fetch(audioAnalysisAPI + this.state.currentSong.id, {
+        headers: {
+          'Authorization': 'Bearer ' + this.state.users[1].access_token
+        }
+      })
       .then(results => results.json())
       .then(json => {
         console.log('analysis', json)
@@ -111,7 +115,7 @@ class Game extends Component {
     return (
       <div> 
         <Button />  
-        <SearchBar user={this.state.users[1]} fetchSongs={this.fetchSongs} handleChange={this.handleChange}/>
+        <SearchBar user={this.state.users[1]} fetchSongs={this.fetchSongs} handleChange={this.handleChange} fetchSongAnalysis={this.fetchAudioAnalysis}/>
         <Player user={this.state.users[1]} song={this.state.currentSong}/>
         <BPM />
     </div>

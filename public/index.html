@@ -23,41 +23,6 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>MetroBeat</title>
-    <div> 
-      <!-- Spotify SDK -->
-      <script src="https://sdk.scdn.co/spotify-player.js"></script>
-      <script>
-        window.onSpotifyWebPlaybackSDKReady = () => {
-          const token = 'BQD9DaCiuDrYDstqXYad2EBb-JuQivHwPb-n1b77yzWIB3795eutthPVS-ETsMDVSXVXN5EwKR--_PToERPACb-uNj1R0sqt1UhF9Rm-5-drTs0jPdUkdSpLYlSNiRAsq_5dWbx9JI9bWQyrIOSwzgwP_woBpvyNaOoW';
-          const player = new Spotify.Player({
-            name: 'Web Playback SDK Quick Start Player',
-            getOAuthToken: cb => { cb(token); }
-          });
-
-          // Error handling
-          player.addListener('initialization_error', ({ message }) => { console.error(message); });
-          player.addListener('authentication_error', ({ message }) => { console.error(message); });
-          player.addListener('account_error', ({ message }) => { console.error(message); });
-          player.addListener('playback_error', ({ message }) => { console.error(message); });
-
-          // Playback status updates
-          player.addListener('player_state_changed', state => { console.log(state); });
-
-          // Ready
-          player.addListener('ready', ({ device_id }) => {
-            console.log('Ready with Device ID', device_id);
-          });
-
-          // Not Ready
-          player.addListener('not_ready', ({ device_id }) => {
-            console.log('Device ID has gone offline', device_id);
-          });
-
-          // Connect to the player!
-          player.connect();
-        }
-      </script>
-    </div>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

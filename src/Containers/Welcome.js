@@ -8,6 +8,7 @@ import Game from '../Containers/Game'
 const usersAPI = 'http://localhost:3000/api/v1/users'
 const playlistAPI = 'https://api.spotify.com/v1/me/playlists'
 const devicesAPI = 'https://api.spotify.com/v1/me/player/devices'
+const audioAnalysisAPI = "https://api.spotify.com/v1/audio-analysis/"
 
 class Welcome extends Component {
   constructor() {
@@ -23,7 +24,10 @@ class Welcome extends Component {
       users: [],
       playlists: [], 
       devices: [],
-      songChosen: false
+      songChosen: false,
+      currentSongAnalysis: {},
+      chosenSong: [],
+      gameLoaded: false
     }
   }
 
@@ -79,38 +83,54 @@ class Welcome extends Component {
       })
     }
 
-    //render the welcome component (login, search, and play button)
-    //when play button is clicked, rerout to /game and render <Game /> 
-    //App.js will now render <Welcome /> instead of <Game />
+    fetchAudioAnalysis = () => {
+      fetch(audioAnalysisAPI + this.state.chosenSong.id, {
+        headers: {
+          'Authorization': 'Bearer ' + this.state.users[1].access_token
+        }
+      })
+      .then(results => results.json())
+      .then(json => {
+        this.setState({currentSongAnalysis: json})
+        console.log('song analysis state', this.state.currentSongAnalysis)
+      })
+      this.setState({gameLoaded:true})
+    }
 
     songChosen = () => {
       this.setState({songChosen: true})
       console.log('in songChosen, songChosen', this.state.songChosen)
     }
 
-    renderWelcomeOrSongFinderOrGame = () => {
-      console.log('songChosen state', this.state.songChosen)
-      if (false && !this.state.isLoggedIn) {
-        return <Button />
-      } else if (this.state.isLoggedIn && !this.state.songChosen) {
-        return <Router>
-          <Route exact path="/"
-            component={() => <Button />} 
-          />
-          <Route exact path="/songfinder"
-            component={() => <SongFinder state={this.state}
-            songChosen={this.songChosen} />} 
-          />
-        </Router>
-      } else if (this.state.songChosen) {
-        console.log('in render game')
-        return <Router>
-          <Route exact path="/game"
-            component={() => <Game />}
-          />
-        </Router>
-      }
+  renderWelcomeOrSongFinderOrGame = () => {
+    console.log('renderWelcomeOr...', this.state.songChosen)
+    if (!this.state.isLoggedIn) {
+      return <Button />
+    } else if (this.state.isLoggedIn && !this.state.songChosen) {
+      return <Router>
+        <Route exact path="/"
+          component={() => <Button />} 
+        />
+        <Route exact path="/songfinder"
+          component={() => <SongFinder state={this.state}
+          songChosen={this.songChosen} handleChooseSongClick={this.handleChooseSongClick}/>} 
+        />
+      </Router>
+    } else if (this.state.songChosen) {
+      console.log('in render game')
+      return <Router>
+        <Route exact path="/game"
+          component={() => <Game fetchAnalysis={this.fetchAudioAnalysis} songAnalysis={this.state.currentSongAnalysis} gameLoaded={this.state.gameLoaded}/>}
+        />
+      </Router>
     }
+  }
+
+  handleChooseSongClick = (song) => {
+    console.log('chosenSong', song)
+    this.setState({chosenSong: song})
+    this.songChosen()
+  }
     
 
   render() {

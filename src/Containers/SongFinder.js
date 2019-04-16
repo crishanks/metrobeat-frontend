@@ -12,7 +12,6 @@ class SongFinder extends Component {
     super()
     this.state = {
       songs: [],
-      currentSong: [],
       allSongCards: [],
       chosenSong: [],
       currentSongAnalysis: {}
@@ -39,6 +38,7 @@ class SongFinder extends Component {
   }
 
   fetchAudioAnalysis = () => {
+    console.log('current song id', this.state.chosenSong)
     fetch(audioAnalysisAPI + this.state.chosenSong.id, {
       headers: {
         'Authorization': 'Bearer ' + this.props.state.users[1].access_token
@@ -49,14 +49,13 @@ class SongFinder extends Component {
       console.log('analysis', json)
       this.setState({currentSongAnalysis: json})
     })
-    console.log('current song id', this.state.chosenSong)
-  
   }
 
   handleSearchSongClick = () => {
     let allSongCards = []
     for (let i = 0; i < 3; i++) {
       const currentSong = this.state.songs.tracks.items[i]
+      console.log('currentSong', currentSong)
       allSongCards.push(<SongCard song={currentSong} key={i} handleChooseSongClick={this.handleChooseSongClick}/>)
     }
     console.log('allsongcards', allSongCards)
@@ -74,6 +73,7 @@ class SongFinder extends Component {
   }
 
   handleChooseSongClick = (song) => {
+    console.log('chosenSong', song)
     this.setState({chosenSong: song}, this.fetchAudioAnalysis)
     return (
       <Router>

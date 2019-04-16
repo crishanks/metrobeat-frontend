@@ -1,7 +1,9 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom'
 
 const SongCard = (props) => {
-  console.log('props', props)
+  console.log('song card props', props)
   return(
     <div onClick={() => props.handleChooseSongClick(props.song)}>
       <h3>{props.song.artists[0].name}</h3>

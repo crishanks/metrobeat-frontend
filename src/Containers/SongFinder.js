@@ -39,7 +39,7 @@ class SongFinder extends Component {
 
   fetchAudioAnalysis = () => {
     console.log('current song id', this.state.chosenSong)
-    fetch(audioAnalysisAPI + this.state.chosenSong.id, {
+    return fetch(audioAnalysisAPI + this.state.chosenSong.id, {
       headers: {
         'Authorization': 'Bearer ' + this.props.state.users[1].access_token
       }
@@ -49,6 +49,7 @@ class SongFinder extends Component {
       console.log('analysis', json)
       this.setState({currentSongAnalysis: json})
     })
+    .then(data => this.props.songChosen())
   }
 
   handleSearchSongClick = () => {
@@ -75,13 +76,6 @@ class SongFinder extends Component {
   handleChooseSongClick = (song) => {
     console.log('chosenSong', song)
     this.setState({chosenSong: song}, this.fetchAudioAnalysis)
-    return (
-      <Router>
-        <Route exact path="/game"
-          component= {() => <Game song={this.state.chosenSong} />}
-        />
-      </Router>
-    )
   }
 
   render() {

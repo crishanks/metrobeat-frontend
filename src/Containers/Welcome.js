@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom'
 import Button from '../Components/Button'
 import SongFinder from '../Containers/SongFinder'
+import Game from '../Containers/Game'
 
 const usersAPI = 'http://localhost:3000/api/v1/users'
 const playlistAPI = 'https://api.spotify.com/v1/me/playlists'
@@ -21,7 +22,8 @@ class Welcome extends Component {
       isLoggedIn,
       users: [],
       playlists: [], 
-      devices: []
+      devices: [],
+      songChosen: false
     }
   }
 
@@ -81,25 +83,40 @@ class Welcome extends Component {
     //when play button is clicked, rerout to /game and render <Game /> 
     //App.js will now render <Welcome /> instead of <Game />
 
-    renderWelcomeOrSongFinder = () => {
+    songChosen = () => {
+      this.setState({songChosen: true})
+      console.log('in songChosen, songChosen', this.state.songChosen)
+    }
+
+    renderWelcomeOrSongFinderOrGame = () => {
+      console.log('songChosen state', this.state.songChosen)
       if (false && !this.state.isLoggedIn) {
         return <Button />
-      } else {
+      } else if (this.state.isLoggedIn && !this.state.songChosen) {
         return <Router>
           <Route exact path="/"
             component={() => <Button />} 
           />
           <Route exact path="/songfinder"
-            component={() => <SongFinder state={this.state} />} 
+            component={() => <SongFinder state={this.state}
+            songChosen={this.songChosen} />} 
+          />
+        </Router>
+      } else if (this.state.songChosen) {
+        console.log('in render game')
+        return <Router>
+          <Route exact path="/game"
+            component={() => <Game />}
           />
         </Router>
       }
     }
+    
 
   render() {
     return (
       <div> 
-        {this.renderWelcomeOrSongFinder()}
+        {this.renderWelcomeOrSongFinderOrGame()}
       </div>
     )
   }
@@ -107,9 +124,4 @@ class Welcome extends Component {
 
 export default Welcome
 
-          // <SearchBar 
-          //   user={this.state.users[1]} 
-          //   fetchSongs={this.fetchSongs} 
-          //   handleChange={this.handleChange} 
-          //   fetchSongAnalysis={this.fetchAudioAnalysis}
-          // />
+         

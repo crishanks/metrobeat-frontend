@@ -16,7 +16,7 @@ class SearchBar extends Component {
   handleSubmit = (ev) => {
     ev.preventDefault()
     this.props.fetchSongs(ev)
-      // .then(data => this.props.fetchSongAnalysis())
+    .then(data => {this.props.handleSearchSongClick()})
   }
 
   render() {

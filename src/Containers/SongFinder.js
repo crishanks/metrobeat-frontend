@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import SearchBar from '../Components/SearchBar';
+import SongCard from '../Components/SongCard'
 
 const searchAPI = 'https://api.spotify.com/v1/search?q='
 const audioAnalysisAPI = "https://api.spotify.com/v1/audio-analysis/"
@@ -8,9 +9,9 @@ class SongFinder extends Component {
   constructor() {
     super()
     this.state = {
-      songChoice: '',
       songs: [],
-      currentSongs: [],
+      allSongCards: [],
+      chosenSong: {},
       currentSongAnalysis: {}
     }
   }
@@ -50,10 +51,32 @@ class SongFinder extends Component {
     })
   }
 
+  handleSearchSongClick = () => {
+    let allSongCards = []
+    for (let i = 0; i < 3; i++) {
+      const currentSong = this.state.songs.tracks.items[i]
+      console.log('currentSong', currentSong)
+      allSongCards.push(<SongCard song={currentSong} key={i}/>)
+    }
+    console.log('allsongcards', allSongCards)
+    this.setState({
+      allSongCards: allSongCards
+    }, () => console.log(this.state.allSongCards))
+  }
+
+  renderSongCards = () => {
+    if (this.state.allSongCards.length > 0) {
+      return this.state.allSongCards
+    } else {
+      return null
+    }
+  }
+
   render() {
     return(
       <div>
-        <SearchBar fetchSongs={this.fetchSongs}/>
+        <SearchBar fetchSongs={this.fetchSongs} handleSearchSongClick={this.handleSearchSongClick}/>
+        {this.renderSongCards()}
       </div>
     )
   }

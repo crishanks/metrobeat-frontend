@@ -73,15 +73,13 @@ class SongFinder extends Component {
     }
   }
 
-  handleChooseSongClick = (song) => {
-    this.setState({chosenSong: song}, this.fetchAudioAnalysis)
-    return (
-      <Router>
-        <Route exact path="/game"
-          component= {() => <Game song={this.state.chosenSong} />}
-        />
-      </Router>
-    )
+  handleChooseSongClick = (song, clicked=false) => {
+    console.log(clicked)
+    if (clicked === true) {
+      this.setState({chosenSong: song}, this.fetchAudioAnalysis)
+    } else {
+      return null
+    }
   }
 
   render() {
@@ -92,9 +90,12 @@ class SongFinder extends Component {
           handleSearchSongClick={this.handleSearchSongClick}
         />
         {this.renderSongCards()} 
+        {this.handleChooseSongClick()}
       </div>
     )
   }
 }
+
+
 
 export default SongFinder

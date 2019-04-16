@@ -4,6 +4,8 @@ import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom'
 import Button from '../Components/Button'
 import SongFinder from '../Containers/SongFinder'
 
+import Game from '../Containers/Game'
+
 const usersAPI = 'http://localhost:3000/api/v1/users'
 const playlistAPI = 'https://api.spotify.com/v1/me/playlists'
 const devicesAPI = 'https://api.spotify.com/v1/me/player/devices'
@@ -91,6 +93,10 @@ class Welcome extends Component {
           />
           <Route exact path="/songfinder"
             component={() => <SongFinder state={this.state} />} 
+          />
+          <Route exact path="/game"
+            component= {() => <Game  
+            />}
           />
         </Router>
       }

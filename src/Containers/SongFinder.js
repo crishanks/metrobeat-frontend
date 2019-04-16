@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import SearchBar from '../Components/SearchBar';
+import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom'
+import SearchBar from '../Components/SearchBar'
 import SongCard from '../Components/SongCard'
+import Game from '../Containers/Game'
 
 const searchAPI = 'https://api.spotify.com/v1/search?q='
 const audioAnalysisAPI = "https://api.spotify.com/v1/audio-analysis/"
@@ -56,7 +58,7 @@ class SongFinder extends Component {
     for (let i = 0; i < 3; i++) {
       const currentSong = this.state.songs.tracks.items[i]
       console.log('currentSong', currentSong)
-      allSongCards.push(<SongCard song={currentSong} key={i}/>)
+      allSongCards.push(<SongCard song={currentSong} key={i} handleChooseSongClick={this.handleChooseSongClick}/>)
     }
     console.log('allsongcards', allSongCards)
     this.setState({
@@ -72,11 +74,26 @@ class SongFinder extends Component {
     }
   }
 
+  handleChooseSongClick = (song) => {
+    console.log('chosenSong', song)
+    this.setState({chosenSong: song})
+    return (
+      <Router>
+        <Route exact path="/game"
+          component= {() => <Game song={this.state.chosenSong} />}
+        />
+      </Router>
+    )
+  }
+
   render() {
     return(
       <div>
-        <SearchBar fetchSongs={this.fetchSongs} handleSearchSongClick={this.handleSearchSongClick}/>
-        {this.renderSongCards()}
+        <SearchBar 
+          fetchSongs={this.fetchSongs} 
+          handleSearchSongClick={this.handleSearchSongClick}
+        />
+        {this.renderSongCards()} 
       </div>
     )
   }

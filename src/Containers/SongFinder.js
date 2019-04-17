@@ -18,12 +18,11 @@ class SongFinder extends Component {
   fetchSongs = (ev) => {
     ev.preventDefault()
     const queryString = ev.target.searchInput.value
-    console.log('user', this.props.state.users[1].access_token)
     return fetch(`${searchAPI + queryString}&type=track`, {
       headers: {
         "Accept": 'application/json',
         "Content-Type": 'application/json',
-        "Authorization": 'Bearer ' + this.props.state.users[1].access_token
+        "Authorization": 'Bearer ' + this.props.state.users[0].access_token
       }
     })
     .then(results => {return results.json()})

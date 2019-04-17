@@ -1,6 +1,26 @@
 import React, {Component} from 'react'
 
+import Player from '../Components/Player'
+import BPM from '../Components/BPM'
+
+let num1;
+let num2;
+
 class Game extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  handleBPMGuess = (guess) => {
+    const songBPM = this.props.songAnalysis.track.tempo
+    const difference = Math.abs((songBPM - guess)).toFixed()
+    
+    if (difference <= 20) {
+      console.log('correct guess within 20', difference)
+    } else {
+      console.log('incorrect guess', difference)
+    }
+  }
 
   componentDidMount = () => {
     if (this.props.gameLoaded) {
@@ -13,8 +33,9 @@ class Game extends Component {
   render() {
     return (
       <div> 
-        <h1>Inside Game</h1>
-    </div>
+       <Player song={this.props.song} />
+       <BPM analysis={this.props.songAnalysis} handleBPMGuess={this.handleBPMGuess}/>
+      </div>
     )
   }
 }

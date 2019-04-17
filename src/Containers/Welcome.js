@@ -120,7 +120,7 @@ class Welcome extends Component {
       console.log('in render game')
       return <Router>
         <Route exact path="/game"
-          component={() => <Game fetchAnalysis={this.fetchAudioAnalysis} songAnalysis={this.state.currentSongAnalysis} gameLoaded={this.state.gameLoaded}/>}
+          component={() => <Game fetchAnalysis={this.fetchAudioAnalysis} songAnalysis={this.state.currentSongAnalysis} gameLoaded={this.state.gameLoaded} song={this.state.chosenSong}/>}
         />
       </Router>
     }

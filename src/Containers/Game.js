@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import Player from '../Components/Player'
 import BPM from '../Components/BPM'
 import Hint from '../Components/Hint'
+import { userInfo } from 'os';
 
 const addSongToPlaylistAPI = 'https://api.spotify.com/v1/playlists/'
 
@@ -38,12 +39,16 @@ class Game extends Component {
     }
   }
 
-  addSongToMetroBeatPlaylist = () => {
-    console.log('in add song')
-    fetch(addSongToPlaylistAPI, {
-
-    })
-  }
+  // addSongToMetroBeatPlaylist = () => {
+  //   console.log('in add song')
+  //   fetch(addSongToPlaylistAPI, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Authorization': 'Bearer ' + user.access_token,
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  // }
 
   componentDidMount = () => {
     if (this.props.gameLoaded) {

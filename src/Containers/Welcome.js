@@ -84,8 +84,10 @@ class Welcome extends Component {
       )
       .then(res => res.json())
       .then(data => {
-        console.log('new playlist data', data)
-        this.setState({newPlaylistData: data})
+        console.log('newPlaylistData create playlist', data)
+        this.setState({
+          newPlaylistData: data
+        })
       })
       .then(data => {this.updateUserHasMetroBeatPlaylist()})
       // .then(data => {this.fetchDevices()})
@@ -104,16 +106,25 @@ class Welcome extends Component {
 
   updateUserHasMetroBeatPlaylist = () => {
     console.log('in update hmbp')
-    fetch(usersAPI + '/' + this.state.users[1].id, {
+
+    // concluded that has_metro_beat_playlist gets set to true in this patch
+    // metro_beat_playlist_id still null
+
+    return fetch(usersAPI + '/' + this.state.users[1].id, {
       method: 'PATCH',
       headers: {
         'Attributes': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        has_metro_beat_playlist: true
+        has_metro_beat_playlist: true,
+        metro_beat_playlist_id: this.state.newPlaylistData.id
       })
     })
+    .then(data => {this.fetchUser()})
+    console.log('playlist data state after uuhmbp', this.state.newPlaylistData)
+    console.log('user state after uuhmbp', this.state.users[1])
+    // debugger
   }
 
   // fetchDevices = () => {
@@ -182,7 +193,7 @@ class Welcome extends Component {
           songAnalysis={this.state.currentSongAnalysis} 
           gameLoaded={this.state.gameLoaded} 
           song={this.state.chosenSong}
-          playlist={this.state.newPlaylistData}
+          user={this.state.users[1]}
           />}
         />
       </Router>

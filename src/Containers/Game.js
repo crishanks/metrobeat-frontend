@@ -12,13 +12,20 @@ class Game extends Component {
     super(props)
     this.state = {
       guessedWrong: false,
-      wantHelp: false
+      wantHelp: false,
+      playAgain: false
     }
   }
 
-  renderHint = () => {
-    if (this.state.guessedWrong) {
+  renderRightOrWrong = () => {
+    if (this.state.guessedWrong && !this.state.playAgain) {
       return <Hint />
+    } else if (this.state.playAgain) {
+      return <div>
+      <form action="http://localhost:3001/songfinder">
+        <input type="submit" value="Play Again"/>
+      </form>
+    </div>
     }
   }
 
@@ -32,6 +39,7 @@ class Game extends Component {
     
     if (difference <= 10) {
       console.log('correct guess within 20', difference)
+      this.setState({playAgain: true})
       this.addSongToMetroBeatPlaylist()
     } else {
       console.log('incorrect guess', difference)
@@ -40,9 +48,7 @@ class Game extends Component {
   }
 
   addSongToMetroBeatPlaylist = () => {
-    debugger
-    console.log('in add song')
-    fetch(`${addSongToPlaylistAPI + this.props.user.metro_beat_playlist_id}/tracks`, {
+    return fetch(`${addSongToPlaylistAPI + this.props.user.metro_beat_playlist_id}/tracks`, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + this.props.user.access_token,
@@ -52,6 +58,7 @@ class Game extends Component {
         'uris': [this.props.song.uri]
       })
     })
+    .then(data => this.renderRightOrWrong())
   }
 
   componentDidMount = () => {
@@ -67,7 +74,7 @@ class Game extends Component {
       <div> 
        <Player song={this.props.song} />
        <BPM analysis={this.props.songAnalysis} handleBPMGuess={this.handleBPMGuess}/>
-       {this.renderHint()}
+       {this.renderRightOrWrong()}
       </div>
     )
   }

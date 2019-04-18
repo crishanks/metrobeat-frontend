@@ -56,7 +56,7 @@ class SongFinder extends Component {
 
   render() {
     return(
-      <div>
+      <div className="song-finder">
         <SearchBar 
           fetchSongs={this.fetchSongs} 
           handleSearchSongClick={this.handleSearchSongClick}

@@ -11,13 +11,15 @@ const theme = 'black'; // or 'white'
 class Player extends Component {  
   render() {
     return (
-      <div>
-      <SpotifyPlayer
-        uri={this.props.song.uri}
-        size={size}
-        view={view}
-        theme={theme}
-      />
+      <div className='player-container'>
+        <div className="player">
+          <SpotifyPlayer
+          uri={this.props.song.uri}
+          size={size}
+          view={view}
+          theme={theme}
+          />
+        </div>
       </div>
     )
   }

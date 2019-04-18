@@ -22,6 +22,8 @@ class Game extends Component {
       return <Hint />
     } else if (this.state.playAgain) {
       return <div>
+        <h2>Correct!</h2>
+        <h3>This song has been added to your MetroBeat Playlist</h3>
       <form action="http://localhost:3001/songfinder">
         <input type="submit" value="Play Again"/>
       </form>
@@ -72,7 +74,9 @@ class Game extends Component {
   render() {
     return (
       <div> 
-       <Player song={this.props.song} />
+        <div className="player-container">
+          <Player song={this.props.song} />
+        </div>
        <BPM analysis={this.props.songAnalysis} handleBPMGuess={this.handleBPMGuess}/>
        {this.renderRightOrWrong()}
       </div>

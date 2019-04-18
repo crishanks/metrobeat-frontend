@@ -52,6 +52,7 @@ class Welcome extends Component {
     console.log('fetching playlists')
     return fetch(playlistAPI, {
       headers: {
+
         'Authorization': 'Bearer ' + this.state.users[1].access_token
       }}
     )
@@ -118,8 +119,6 @@ class Welcome extends Component {
       })
     })
     .then(data => {this.fetchUser()})
-    console.log('playlist data state after uuhmbp', this.state.newPlaylistData)
-    console.log('user state after uuhmbp', this.state.users[1])
   }
 
   // fetchDevices = () => {
@@ -158,9 +157,8 @@ class Welcome extends Component {
     if (!this.state.isLoggedIn) {
       return (
         <div>
-          <div className="message">
-            <h1>Welcome to MetroBeat</h1>
-            <h3>The First Ever Gamified Playlister</h3>
+          <div className="message-container">
+            <h3 className="message">The First Ever Gamified Playlister</h3>
           </div>
           <div className="login-button">
             <Button />

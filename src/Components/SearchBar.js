@@ -21,9 +21,9 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div>
+      <div className="search-bar">
         <form onSubmit={(ev) => this.handleSubmit(ev)}>
-          <label>Search For a Song</label>
+          <label>Search For a Song  </label>
           <input name="searchInput" type="text" onChange={this.handleChange}/>
           <input type="submit" value="Search Song"/>
         </form>

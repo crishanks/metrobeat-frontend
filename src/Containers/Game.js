@@ -39,16 +39,20 @@ class Game extends Component {
     }
   }
 
-  // addSongToMetroBeatPlaylist = () => {
-  //   console.log('in add song')
-  //   fetch(addSongToPlaylistAPI, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Authorization': 'Bearer ' + user.access_token,
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  // }
+  addSongToMetroBeatPlaylist = () => {
+    debugger
+    console.log('in add song')
+    fetch(`${addSongToPlaylistAPI + this.props.user.metro_beat_playlist_id}/tracks`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.user.access_token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'uris': [this.props.song.uri]
+      })
+    })
+  }
 
   componentDidMount = () => {
     if (this.props.gameLoaded) {

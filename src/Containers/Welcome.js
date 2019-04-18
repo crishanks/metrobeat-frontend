@@ -23,7 +23,7 @@ class Welcome extends Component {
     this.state = {
       isLoggedIn,
       users: [],
-      playlists: [], 
+      playlists: [],
       devices: [],
       songChosen: false,
       currentSongAnalysis: {},
@@ -36,55 +36,62 @@ class Welcome extends Component {
     this.fetchUser()
   }
 
-    fetchUser = () => {
-      console.log('fetching user')
-      return fetch(usersAPI)
-      .then(res => res.json())
-      .then(data => {
-        console.log('setting user state')
-        this.setState({users: data})
-      })
-      .then(data => {this.fetchPlaylists()})
-    }
+  fetchUser = () => {
+    console.log('fetching user')
+    return fetch(usersAPI)
+    .then(res => res.json())
+    .then(data => {
+      console.log('setting user state')
+      this.setState({users: data})
+    })
+    .then(data => {this.fetchPlaylists()})
+  }
 
-    fetchPlaylists = (shouldRetry=true) => {
-      console.log('fetching playlists')
-      return fetch(playlistAPI, {
-        headers: {
-          'Authorization': 'Bearer ' + this.state.users[1].access_token
-        }}
-      )
-      .then(res => res.json())
-      .then(data => {
-        console.log('playlists data', data)
-        if (data.error && shouldRetry) {
-          this.refreshToken()
-        } else {
-          console.log('setting playlists state')
-          this.setState({playlists: data})
-        }
-      })
-      .then(data => this.createPlaylist())
-    }
+  fetchPlaylists = (shouldRetry=true) => {
+    console.log('fetching playlists')
+    return fetch(playlistAPI, {
+      headers: {
+        'Authorization': 'Bearer ' + this.state.users[1].access_token
+      }}
+    )
+    .then(res => res.json())
+    .then(data => {
+      console.log('playlists data', data)
+      if (data.error && shouldRetry) {
+        this.refreshToken()
+      } else {
+        console.log('setting playlists state')
+        this.setState({playlists: data})
+      }
+    })
+    .then(data => this.createPlaylist())
+  }
+
+    //create new row in user hasMetroBeatPlaylist
+    //on createPlaylist(), we call a new function updateUserHasMetroBeatPlaylist() which has a patch request to /api/v1/users update method which updates the users hasMBP to true
+    //Put logic in createPlaylist() if this.state.users[1].hasMPB true, do nothing
 
     createPlaylist = () => {
-      console.log('creating playlist')
-      let url = `https://api.spotify.com/v1/users/${this.state.users[1].spotify_id}/playlists`
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${this.state.users[1].access_token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          'name': 'MetroBeat'
-        })}
-      )
-      .then(res => res.json())
-      .then(data => {
-        console.log('new playlist data', data)
-      })
-      .then(data => {this.fetchDevices()})
+      if (!this.state.users[1].has_metro_beat_playlist) {
+        console.log('creating playlist')
+        let url = `https://api.spotify.com/v1/users/${this.state.users[1].spotify_id}/playlists`
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${this.state.users[1].access_token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            'name': 'MetroBeat'
+          })}
+        )
+        .then(res => res.json())
+        .then(data => {
+          console.log('new playlist data', data)
+        })
+        .then(data => {this.updateUserHasMetroBeatPlaylist()})
+        // .then(data => {this.fetchDevices()})
+      }
     }
 
     refreshToken = () => {
@@ -97,17 +104,31 @@ class Welcome extends Component {
       this.fetchPlaylists(false)
     }
 
-    fetchDevices = () => {
-      fetch(devicesAPI, {
+    updateUserHasMetroBeatPlaylist = () => {
+      console.log('in update hmbp')
+      fetch(usersAPI + '/' + this.state.users[1].id, {
+        method: 'PATCH',
         headers: {
-          'Authorization': 'Bearer ' + this.state.users[1].access_token
-        }}
-      )
-      .then(res => res.json())
-      .then(data => {
-        this.setState({devices: data})
+          'Attributes': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          has_metro_beat_playlist: true
+        })
       })
     }
+
+    // fetchDevices = () => {
+    //   fetch(devicesAPI, {
+    //     headers: {
+    //       'Authorization': 'Bearer ' + this.state.users[1].access_token
+    //     }}
+    //   )
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     this.setState({devices: data})
+    //   })
+    // }
 
     fetchAudioAnalysis = () => {
       fetch(audioAnalysisAPI + this.state.chosenSong.id, {

@@ -28,7 +28,8 @@ class Welcome extends Component {
       songChosen: false,
       currentSongAnalysis: {},
       chosenSong: [],
-      gameLoaded: false
+      gameLoaded: false,
+      newPlaylistData: {}
     }
   }
 
@@ -67,87 +68,84 @@ class Welcome extends Component {
     .then(data => this.createPlaylist())
   }
 
-    //create new row in user hasMetroBeatPlaylist
-    //on createPlaylist(), we call a new function updateUserHasMetroBeatPlaylist() which has a patch request to /api/v1/users update method which updates the users hasMBP to true
-    //Put logic in createPlaylist() if this.state.users[1].hasMPB true, do nothing
-
-    createPlaylist = () => {
-      if (!this.state.users[1].has_metro_beat_playlist) {
-        console.log('creating playlist')
-        let url = `https://api.spotify.com/v1/users/${this.state.users[1].spotify_id}/playlists`
-        return fetch(url, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${this.state.users[1].access_token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            'name': 'MetroBeat'
-          })}
-        )
-        .then(res => res.json())
-        .then(data => {
-          console.log('new playlist data', data)
-        })
-        .then(data => {this.updateUserHasMetroBeatPlaylist()})
-        // .then(data => {this.fetchDevices()})
-      }
-    }
-
-    refreshToken = () => {
-      console.log('refreshing token')
-      fetch(usersAPI)
-      .then(results => results.json())
-      .then(json => {
-        this.setState({users: json})
-      })
-      this.fetchPlaylists(false)
-    }
-
-    updateUserHasMetroBeatPlaylist = () => {
-      console.log('in update hmbp')
-      fetch(usersAPI + '/' + this.state.users[1].id, {
-        method: 'PATCH',
+  createPlaylist = () => {
+    if (!this.state.users[1].has_metro_beat_playlist) {
+      console.log('creating playlist')
+      let url = `https://api.spotify.com/v1/users/${this.state.users[1].spotify_id}/playlists`
+      return fetch(url, {
+        method: 'POST',
         headers: {
-          'Attributes': 'application/json',
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${this.state.users[1].access_token}`,
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          has_metro_beat_playlist: true
-        })
+          'name': 'MetroBeat'
+        })}
+      )
+      .then(res => res.json())
+      .then(data => {
+        console.log('new playlist data', data)
+        this.setState({newPlaylistData: data})
       })
+      .then(data => {this.updateUserHasMetroBeatPlaylist()})
+      // .then(data => {this.fetchDevices()})
     }
+  }
 
-    // fetchDevices = () => {
-    //   fetch(devicesAPI, {
-    //     headers: {
-    //       'Authorization': 'Bearer ' + this.state.users[1].access_token
-    //     }}
-    //   )
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     this.setState({devices: data})
-    //   })
-    // }
+  refreshToken = () => {
+    console.log('refreshing token')
+    fetch(usersAPI)
+    .then(results => results.json())
+    .then(json => {
+      this.setState({users: json})
+    })
+    this.fetchPlaylists(false)
+  }
 
-    fetchAudioAnalysis = () => {
-      fetch(audioAnalysisAPI + this.state.chosenSong.id, {
-        headers: {
-          'Authorization': 'Bearer ' + this.state.users[1].access_token
-        }
+  updateUserHasMetroBeatPlaylist = () => {
+    console.log('in update hmbp')
+    fetch(usersAPI + '/' + this.state.users[1].id, {
+      method: 'PATCH',
+      headers: {
+        'Attributes': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        has_metro_beat_playlist: true
       })
-      .then(results => results.json())
-      .then(json => {
-        this.setState({currentSongAnalysis: json})
-        console.log('song analysis state', this.state.currentSongAnalysis)
-      })
-      this.setState({gameLoaded:true})
-    }
+    })
+  }
 
-    songChosen = () => {
-      this.setState({songChosen: true})
-      console.log('in songChosen, songChosen', this.state.songChosen)
-    }
+  // fetchDevices = () => {
+  //   fetch(devicesAPI, {
+  //     headers: {
+  //       'Authorization': 'Bearer ' + this.state.users[1].access_token
+  //     }}
+  //   )
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     this.setState({devices: data})
+  //   })
+  // }
+
+  fetchAudioAnalysis = () => {
+    fetch(audioAnalysisAPI + this.state.chosenSong.id, {
+      headers: {
+        'Authorization': 'Bearer ' + this.state.users[1].access_token
+      }
+    })
+    .then(results => results.json())
+    .then(json => {
+      this.setState({currentSongAnalysis: json})
+      console.log('song analysis state', this.state.currentSongAnalysis)
+    })
+    this.setState({gameLoaded:true})
+  }
+
+  songChosen = () => {
+    this.setState({songChosen: true})
+    console.log('in songChosen, songChosen', this.state.songChosen)
+  }
 
   renderWelcomeOrSongFinderOrGame = () => {
     console.log('renderWelcomeOr...', this.state.songChosen)
@@ -169,15 +167,23 @@ class Welcome extends Component {
           component={() => <Button />} 
         />
         <Route exact path="/songfinder"
-          component={() => <SongFinder state={this.state}
-          songChosen={this.songChosen} handleChooseSongClick={this.handleChooseSongClick}/>} 
+          component={() => <SongFinder 
+          state={this.state}
+          songChosen={this.songChosen} 
+          handleChooseSongClick={this.handleChooseSongClick}/>} 
         />
       </Router>
     } else if (this.state.songChosen) {
       console.log('in render game')
       return <Router>
         <Route exact path="/game"
-          component={() => <Game fetchAnalysis={this.fetchAudioAnalysis} songAnalysis={this.state.currentSongAnalysis} gameLoaded={this.state.gameLoaded} song={this.state.chosenSong}/>}
+          component={() => <Game 
+          fetchAnalysis={this.fetchAudioAnalysis} 
+          songAnalysis={this.state.currentSongAnalysis} 
+          gameLoaded={this.state.gameLoaded} 
+          song={this.state.chosenSong}
+          playlist={this.state.newPlaylistData}
+          />}
         />
       </Router>
     }

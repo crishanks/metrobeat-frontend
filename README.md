@@ -1,69 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# METROBEAT
 
-## Available Scripts
+## Technologies
 
-In the project directory, you can run:
+- ReactJS
+- OAuth Authentication
+- Spotify API
+- Ruby on Rails
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Singe Page Application
+- Full OAuth Authentication for secure sign in
+- Connects to the Spotify API
+  - Creatively create playlists and add songs to it
+  - Secure sign in for anyone with a Spotify account
+- Search for and listen to any song on Spotify
+- Guess tempo (BPM) of songs to add them to a playlist
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Summary
 
-### `npm test`
+METROBEAT is the world's first gamified Spotify playlist maker! Users sign in with his/her Spotify username and password. Upon account creation, METROBEAT creates a new playlist in the user's Spotify account. Players search for and choose their favorite songs. Next, they guess the Beats Per Minute of that song. When they guess correctly, that song is added to their new playlist and can play again.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How to Use METROBEAT
 
-### `npm run build`
+Sign in with your valid Spotify account. Search for a song you love. Once you've found it, give it a click to begin the game. Listen to the song and try to count the Beats per Minute. When you guess right, METROBEAT will add that song to your playlist, and you can search for another song.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Known Bugs
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+- User sign in currently down (still in testing phase)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Future Updates
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# metrobeat-frontend
+Players will be able to:
+- search by artist and genre
+- play multiple game modes including guess the artist, song title, album and more
+- log back in to view past games
+- enjoy a more visibly pleasing experience with updated layout and styling

@@ -51,10 +51,21 @@
 /* Button */
 .link-button {
   text-decoration: none;
-  background-color: #2ab759;
-  color: #F8F8F8;
+  border: 2px solid #2ab759;
+  color: #2ab759;
   border-radius: 20px;
   padding: 10px;
+  background-image: linear-gradient(#2ab759 100%, #F8F8F8 100%); 
+  background-repeat: no-repeat;
+  background-size: 0% 0%;
+  background-position: 50% 50%;
+  transition: background-size .5s, color .5s;
+}
+
+.link-button:hover {
+  background-size: 100% 100%;
+  color: #F8F8F8;
+  cursor: pointer;
 }
 
 .player-container {
@@ -91,6 +102,11 @@
   flex-direction: column;
   align-Items: center;
   justify-content: space-evenly; 
+  text-align: center;
+}
+
+.song-finder .link-button {
+
 }
 
 .song-finder .search-input{

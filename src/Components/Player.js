@@ -12,7 +12,7 @@ class Player extends Component {
   render() {
     return (
       <div className='player-container'>
-        <div className="player">
+        <div className="media-player">
           <SpotifyPlayer
           uri={this.props.song.uri}
           size={size}

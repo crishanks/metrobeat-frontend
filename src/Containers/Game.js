@@ -73,13 +73,11 @@ class Game extends Component {
 
   render() {
     return (
-      <div> 
-        <div className="player-container">
-          <Player song={this.props.song} />
-        </div>
+      <> 
+        <Player song={this.props.song} />
        <BPM analysis={this.props.songAnalysis} handleBPMGuess={this.handleBPMGuess}/>
        {this.renderRightOrWrong()}
-      </div>
+      </>
     )
   }
 }

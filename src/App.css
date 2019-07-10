@@ -95,6 +95,10 @@
   text-align: center;
 }
 
+.song-finder form > * {
+  margin-bottom: 20px;
+}
+
 .search-input{
   border-radius: 15px;
   height: 25px;

@@ -2,7 +2,7 @@
 
 ## Demo Video
 
-[![MetroBeat Demo Video](https://www.facebook.com/photo.php?fbid=10156521686688036&set=a.10150147817493036&type=3&theater)](https://youtu.be/_SAf_1fE_Co)
+[![MetroBeat Demo Video](https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-9/66609223_10156521686693036_5164497911999889408_o.jpg?_nc_cat=106&_nc_oc=AQk70nY4zem102iZb1mLEcOEGPp6KaopVlE1yAtLZKepLK6xmk1wNtPI0Llly9MdY9hkDVwfjf1j7L1qnmbIYE8g&_nc_ht=scontent-sjc3-1.xx&oh=180711cccf394513e5cc12903fffb4f2&oe=5DB4CD13)](https://youtu.be/_SAf_1fE_Co)
 
 ## Technologies
 

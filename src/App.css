@@ -74,11 +74,27 @@
   color: white;
 }
 
+/* Song Finder */
 .song-finder {
-  display: inline-flexbox;
-  align-items: flex-start; 
+  grid-row: 3;
+  grid-column: 3;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-Items: center;
+  justify-content: space-evenly; 
 }
 
-.search-bar {
-  position: relative;
+.song-finder form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-Items: center;
+  justify-content: space-evenly; 
+}
+
+.song-finder .search-input{
+  border-radius: 15px;
+  height: 25px;
+  width: 150px;
 }

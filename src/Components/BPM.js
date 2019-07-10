@@ -20,11 +20,11 @@ class BPM extends Component {
   render() {
 
     return (
-      <div>
+      <div className="bpm-box">
         <form onSubmit={(ev) => {this.handleSubmit(ev)}}>
           <label>Guess the BPM</label>
-          <input name="guess" type="text" value={this.state.guess} onChange={(ev) => this.handleChange(ev)}/>
-          <input type="submit" value="submit"/>
+          <input className="search-input" name="guess" type="text" value={this.state.guess} onChange={(ev) => this.handleChange(ev)}/>
+          <input className="link-button" type="submit" value="Get It!"/>
         </form>
       </div>
     )

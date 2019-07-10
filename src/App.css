@@ -95,7 +95,7 @@
   text-align: center;
 }
 
-.song-finder .search-input{
+.search-input{
   border-radius: 15px;
   height: 25px;
   width: 150px;
@@ -107,7 +107,6 @@
   grid-row: 4/6;
   height: 100%;
   width: 100vw;
-  
 }
 
 .song-card {
@@ -148,5 +147,38 @@
 }
 
 .media-player {
+  width: 100%;
+  margin-bottom: 20px;
+}
 
+.media-player iframe {
+  border-radius: 15px;
+}
+
+/* Guess the BPM */
+.bpm-box {
+  grid-row: 3;
+  grid-column: 3;
+  justify-self: center;
+  align-self: center;
+}
+
+.bpm-box form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bpm-box form label{
+  padding-bottom: 10px;
+}
+
+.bpm-box form input{
+  margin-bottom: 10px;
+}
+
+.bpm-box .link-button {
+  padding: 7px 30px;
 }

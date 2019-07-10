@@ -19,7 +19,7 @@ class Game extends Component {
 
   renderRightOrWrong = () => {
     if (this.state.guessedWrong && !this.state.playAgain) {
-      return <Hint />
+      return <div><h3>Try Again!</h3></div>
     } else if (this.state.playAgain) {
       return <div>
         <h2>Correct!</h2>

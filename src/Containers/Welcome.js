@@ -156,13 +156,9 @@ class Welcome extends Component {
     console.log('renderWelcomeOr...', this.state.songChosen)
     if (!this.state.isLoggedIn) {
       return (
-        <div>
-          <div className="message-container">
-            <h3 className="message">The First Ever Gamified Playlister</h3>
-          </div>
-          <div className="login-button">
-            <Button />
-          </div>
+        <div className="welcome-message-container">
+          <h3 className="message">Gamify Your Playlist</h3>
+          <Button />
         </div>
       )
     } else if (this.state.isLoggedIn && !this.state.songChosen) {
@@ -202,9 +198,9 @@ class Welcome extends Component {
 
   render() {
     return (
-      <div> 
+      <>
         {this.renderWelcomeOrSongFinderOrGame()}
-      </div>
+      </>
     )
   }
 }

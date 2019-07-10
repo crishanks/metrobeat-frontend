@@ -13,9 +13,7 @@ class App extends Component {
           <img src={logo} alt="metrobeat logo" className='logo'/>
         </div>
         <br/>
-        <div className="message-container">
           <Welcome />
-        </div>
       </div>
     );
   }

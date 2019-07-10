@@ -48,7 +48,11 @@ class SongFinder extends Component {
 
   renderSongCards = () => {
     if (this.state.allSongCards.length > 0) {
-      return this.state.allSongCards
+      return (
+        <div className="song-cards-container">
+          {this.state.allSongCards}
+        </div>
+      )
     } else {
       return null
     }
@@ -56,13 +60,15 @@ class SongFinder extends Component {
 
   render() {
     return(
-      <div className="song-finder">
-        <SearchBar 
-          fetchSongs={this.fetchSongs} 
-          handleSearchSongClick={this.handleSearchSongClick}
-        />
-        {this.renderSongCards()} 
-      </div>
+      <>
+        <div className="song-finder">
+          <SearchBar 
+            fetchSongs={this.fetchSongs} 
+            handleSearchSongClick={this.handleSearchSongClick}
+          />
+        </div>
+        {this.renderSongCards()}
+      </>
     )
   }
 }

@@ -138,7 +138,7 @@
 /* Media Player */
 .player-container {
   grid-column: 3;
-  grid-row: 4;
+  grid-row: 5;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -181,4 +181,25 @@
 
 .bpm-box .link-button {
   padding: 7px 30px;
+}
+
+.guess-message {
+  grid-row: 4;
+  grid-column: 3;
+  justify-self: center;
+  align-self: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guess-message > * {
+  padding: 10px;
+  text-align: center;
+}
+
+.guess-message h2 {
+  color: #2ab759;
 }

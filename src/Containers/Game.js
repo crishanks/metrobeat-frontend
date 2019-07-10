@@ -19,13 +19,13 @@ class Game extends Component {
 
   renderRightOrWrong = () => {
     if (this.state.guessedWrong && !this.state.playAgain) {
-      return <div><h3>Try Again!</h3></div>
+      return <div className="guess-message"><h3>Try Again!</h3></div>
     } else if (this.state.playAgain) {
-      return <div>
+      return <div className="guess-message">
         <h2>Correct!</h2>
         <h3>This song has been added to your MetroBeat Playlist</h3>
       <form action="http://localhost:3001/songfinder">
-        <input type="submit" value="Play Again"/>
+        <input className="link-button" type="submit" value="Play Again"/>
       </form>
     </div>
     }
